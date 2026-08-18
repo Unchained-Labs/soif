@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.egg-info/
+dist/
+.pytest_cache/
+.ruff_cache/
+site/
+docs/methodology.md
+docs/claude-code.md

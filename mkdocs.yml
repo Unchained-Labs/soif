@@ -1,0 +1,39 @@
+site_name: soif
+site_description: Estimate the water footprint of LLM prompts.
+site_url: https://unchained-labs.github.io/soif/
+repo_url: https://github.com/Unchained-Labs/soif
+repo_name: Unchained-Labs/soif
+
+theme:
+  name: material
+  icon:
+    logo: material/water
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - navigation.sections
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Methodology: methodology.md
+  - API reference: api.md
+  - Agent graphs: agent-graphs.md
+  - Claude Code hook: claude-code.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - tables
