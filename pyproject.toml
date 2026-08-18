@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "soif"
+name = "soif-llm"
 version = "0.1.0"
 description = "Estimate the water footprint of LLM prompts, the way you estimate their cost."
 readme = "README.md"

@@ -3,7 +3,7 @@
 `soif` estimates the freshwater **consumed** (evaporated or otherwise removed from the
 local watershed — not merely withdrawn and returned) to serve an LLM response. This
 document explains the model, the factors, their sources, and the limits of the whole
-exercise. Factor values live in [`src/soif/factors.py`](src/soif/factors.py) and are
+exercise. Factor values live in [`src/soif/factors.py`](https://github.com/Unchained-Labs/soif/blob/main/src/soif/factors.py) and are
 versioned via `FACTORS_VERSION`.
 
 ## 1. The model

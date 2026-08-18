@@ -15,12 +15,16 @@ documented, versioned methodology ([METHODOLOGY.md](METHODOLOGY.md)).
 - Library API, CLI, SDK response adapters (OpenAI / Anthropic), a Claude Code hook, and
   water-aware model routing for agent graphs.
 
+📚 **Docs: [unchained-labs.github.io/soif](https://unchained-labs.github.io/soif/)**
+
 ## Install
 
 ```bash
-pip install soif            # from a checkout: pip install .
-pip install "soif[tokenizers]"   # optional: exact token counts via tiktoken
+pip install soif-llm                 # imports as `soif`; from a checkout: pip install .
+pip install "soif-llm[tokenizers]"   # optional: exact token counts via tiktoken
 ```
+
+(The PyPI distribution is `soif-llm` — the bare name was taken — but the module is `soif`.)
 
 ## Quick start
 
