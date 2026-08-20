@@ -115,6 +115,16 @@ optimize.savings("claude-opus-4", "claude-haiku-4-5", output_tokens=500)
 Model choice is the big lever (~30× between tiers); after that: shorter outputs, prompt
 caching, modest reasoning effort, and low-water regions/providers.
 
+## MCP server & agent stacks
+
+- **MCP**: [`soif-mcp`](https://github.com/Unchained-Labs/soif-mcp) exposes soif as MCP
+  tools (`estimate_water`, `estimate_from_usage`, `compare_models`,
+  `pick_low_water_model`, …) for Claude Code, Claude Desktop, Cursor, and any MCP client.
+- **Agent guidance**: [AGENTS.md](AGENTS.md) tells coding/orchestration agents how to use
+  soif correctly (real usage over guesses, report ranges, quote assumptions).
+- **Claude skill**: `.claude/skills/soif/` makes Claude answer water-footprint questions
+  with soif automatically in this repo (copy it into any project's `.claude/skills/`).
+
 ## Claude Code hook
 
 Get a water read-out for every session, computed from the transcript's *real* token usage
