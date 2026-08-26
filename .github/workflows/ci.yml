@@ -22,3 +22,19 @@ jobs:
         run: ruff check .
       - name: Test
         run: pytest -q
+
+  factors-parity:
+    # factors.json is generated from src/soif/factors.py and consumed by other
+    # languages (soif-web recomputes estimates in TypeScript). If the two ever
+    # disagree, two repos report different water for the same tokens while both
+    # look healthy — so drift is a build failure, not a warning.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e "."
+      - name: Check factors.json is in sync with factors.py
+        run: python scripts/export_factors.py --check

@@ -160,10 +160,38 @@ Epoch AI's GPT-4o analysis, Mistral's Large 2 LCA, and Ren et al.'s methodology.
 **Read [METHODOLOGY.md](METHODOLOGY.md) before quoting numbers** — these are estimates,
 not measurements.
 
+## `factors.json` — the factor set for other languages
+
+The tables in `src/soif/factors.py` are the single source of truth for the whole soif
+project, but [`soif-app`](https://github.com/Unchained-Labs/soif-app) recomputes estimates
+in TypeScript. Rather than hand-port the numbers — which guarantees the two drift apart —
+the tables are serialised to [`factors.json`](factors.json):
+
+```bash
+python scripts/export_factors.py            # regenerate
+python scripts/export_factors.py --check    # CI: fail if it drifts from the .py
+```
+
+The file carries the tier energies, token weights, tier boundaries, provider (WUE/PUE)
+and region (EWIF) tables, the lifecycle multiplier, and the full model registry with its
+matching rule. It also carries **`parity_vectors`**: estimates computed by this
+implementation that a port must reproduce, covering cached tokens, reasoning tokens, raw
+factor overrides, operational-only mode, and the unknown-model fallback. A port that
+matches every vector has demonstrated parity rather than claimed it.
+
+`factors.json` is generated, never edited — CI fails the build if it disagrees with the
+Python. It is attached to each GitHub release, so downstream consumers can pin a factor
+set by URL. Stamp `factors_version` on anything you store, so historical estimates stay
+reproducible when the factors change.
+
 ## Contributing
 
 Factor updates (new disclosures, better WUE/PUE/EWIF data, new models) are the most
 valuable contributions — please include sources. `pip install -e ".[dev]" && pytest && ruff check .`
+
+Changing a factor means regenerating the export: `python scripts/export_factors.py`.
+Bump `FACTORS_VERSION` in the same commit — stored estimates elsewhere are stamped with
+it, and a silent value change makes old rows irreproducible.
 
 ## License
 

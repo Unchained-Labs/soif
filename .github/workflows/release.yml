@@ -32,6 +32,27 @@ jobs:
           name: dist
           path: dist/
 
+  factors:
+    # Publish factors.json as a release asset so downstream consumers can pin a
+    # factor set by URL rather than vendoring a copy that silently ages.
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install -e "."
+      - name: Regenerate and verify
+        run: python scripts/export_factors.py --check
+      - name: Attach factors.json to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" factors.json --clobber
+
   publish:
     needs: build
     runs-on: ubuntu-latest
