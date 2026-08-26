@@ -8,6 +8,15 @@ name: Docs
 on:
   push:
     branches: [main]
+  # Build on pull requests too, so a broken link or a bad nav entry fails
+  # review rather than the live site. Deploy stays main-only.
+  pull_request:
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "METHODOLOGY.md"
+      - "integrations/claude-code/README.md"
+      - ".github/workflows/docs.yml"
   workflow_dispatch:
 
 permissions:
@@ -32,15 +41,19 @@ jobs:
           pip install mkdocs-material
           cp METHODOLOGY.md docs/methodology.md
           cp integrations/claude-code/README.md docs/claude-code.md
-          mkdocs build
-      - uses: actions/configure-pages@v5
+          mkdocs build --strict
+      # A pull request proves the site still builds; only main publishes it.
+      - if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
         with:
           enablement: true
-      - uses: actions/upload-pages-artifact@v3
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: site/
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
