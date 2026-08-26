@@ -1,29 +1,49 @@
 site_name: soif
-site_description: Estimate the water footprint of LLM prompts.
+site_description: Estimate the freshwater footprint of LLM prompts, honestly — with a range, not a false precision.
 site_url: https://unchained-labs.github.io/soif/
 repo_url: https://github.com/Unchained-Labs/soif
 repo_name: Unchained-Labs/soif
+copyright: Unchained Labs · MIT · estimates, not measurements
 
 theme:
   name: material
-  icon:
-    logo: material/water
+  logo: assets/mark-accent.svg
+  favicon: assets/favicon.svg
+  # Brand fonts are loaded by extra.css, which needs all three faces —
+  # Material's own `font:` option only wires up two, and leaving them declared
+  # but unloaded silently falls back to system sans.
+  font: false
+  # Dark first: the brand tokens are authored against a dark ground and every
+  # tool in this org is terminal-adjacent. Light is supported, not primary.
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: blue
-      toggle:
-        icon: material/brightness-7
-        name: Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue
       toggle:
         icon: material/brightness-4
         name: Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
   features:
+    - navigation.instant
+    - navigation.tracking
     - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
     - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+extra_css:
+  # tokens.css is vendored from Unchained-Labs/branding and must not be edited
+  # here; extra.css only maps Material's variables onto those tokens.
+  - assets/tokens.css
+  - assets/extra.css
 
 nav:
   - Home: index.md
@@ -34,6 +54,22 @@ nav:
 
 markdown_extensions:
   - admonition
-  - pymdownx.highlight
-  - pymdownx.superfences
+  # Resolves the :material-*: / :octicons-*: shortcodes into inline SVG. Without
+  # it Material's own icon syntax renders as literal text on the page.
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
   - tables
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Unchained-Labs
