@@ -19,6 +19,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: The tag and the package version must agree
+        # v1.0.0 was tagged while the package still said 0.1.0, so the release
+        # went to PyPI under the old number and the tag has disagreed with the
+        # artifact ever since. Cheap to check, and impossible to notice by eye.
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(python -c 'import tomllib,pathlib; print(tomllib.loads(pathlib.Path("pyproject.toml").read_text())["project"]["version"])')"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match pyproject version $pkg"
+            exit 1
+          fi
+          echo "ok  tag $tag matches package $pkg"
       - name: Build sdist and wheel
         run: |
           pip install build

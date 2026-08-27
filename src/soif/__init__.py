@@ -27,7 +27,7 @@ from soif.estimator import SoifError, WaterEstimate, estimate
 from soif.meter import Meter
 from soif.tokens import approx_tokens
 
-__version__ = "0.1.0"
+__version__ = "1.1.0"
 
 __all__ = [
     "Meter",
